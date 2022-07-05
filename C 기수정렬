@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <math.h>
+#define _CRT_NO_WARNINGS
+
+void radixSort(int x, int y);
+
+int arr[100];
+
+
+int main()
+{
+	int n, m;
+	int i;
+	scanf("%d %d", &n, &m);
+
+	for (i = 0; i < n; i++) {
+		scanf("%d", arr + i);
+	}
+
+	radixSort(n, m);
+
+	for (i = 0; i < n; i++)
+		printf("%d", *(arr + i));
+	return 0;
+}
+
+void radixSort(int x, int y) {
+	int* p, * q;
+	int b[10] = { 0 }, sum = 0, result[y];
+	int i, j, c, idx;
+
+	for (i = 1; i <= x; i++) { //자릿수
+		for (p = arr; p < arr + y; p++) {  //숫자를 저장
+			c = (*p % (int)pow(10, i) / (int)pow(10, i - 1));
+			b[c]++;
+		}
+
+		for (j = 0; j < 10; j++) { //누적값으로 변환
+			sum += b[j];
+			b[j] = sum;
+
+		}
+
+		for (q = arr + y - 1; q >= arr; q--) {  //끝 숫자부터 결과 배열에 저장하면서 누적값에서 빼기
+			c = (*q % (int)pow(10, i) / (int)pow(10, i - 1));
+			idx = b[c]--;
+			result[idx] = *q;
+		}
+
+		for (j = 0; j < y; j++) //결과 배열을 arr에 저장
+			*(arr + j) = result[j];
+	}
+}
