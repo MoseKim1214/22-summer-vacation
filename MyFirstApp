@@ -1,0 +1,166 @@
+import SwiftUI
+
+struct ContentView: View {
+    @State var wishLike = false
+    var items : [item] = itemList
+    var body: some View {
+        NavigationView{
+            
+            VStack {
+                HStack(alignment: .top, spacing: 10){
+                    Image(systemName: "line.3.horizontal")
+                    
+                    Spacer()
+                        
+                    Text("Shop")
+                    Spacer()
+                    Image(systemName: "magnifyingglass")
+                    
+                }.padding()
+                
+                HStack{
+                    
+                    Button("All"){}
+                    Spacer()
+                    Button("Shirts"){}
+                    Spacer()
+                    Button("Pants"){}
+                    Spacer()
+                    Button("Skirts"){}
+                    Spacer()
+                    Button("Outer"){}
+                    
+                }
+                .padding()
+                .background(.blue)
+                
+                VStack{
+                    Text("Best Item")
+                        .font(.largeTitle)
+                    ScrollView(Axis.Set.horizontal, showsIndicators: true){
+                        HStack{
+                            ForEach(items){ item in
+                                VStack{
+                                    ZStack{
+                                        NavigationLink(destination: itemDetail(item: item)){
+                                            Image(systemName: item.Image)
+                                                .resizable()
+                                                .frame(width: 100, height: 100)
+                                            
+                                            ZStack{
+                                                VStack{
+                                                    Rectangle()
+                                                        .frame(width: 100, height: 50)
+                                                        .opacity(0)
+                                                    
+                                                    Image(systemName: wishLike ? "heart.fill" : "heart")
+                                                        .foregroundColor(.red)
+                                                        .frame(width: 20, height: 20, alignment: .trailing)
+                                                        .onTapGesture {
+                                                            wishLike.toggle()
+                                                        }
+                                                    
+                                                }
+                                                .frame(width: 100, height: 100)
+                                            }
+                                        }
+                                    }
+                                    Text(item.Name)
+                                    Divider()
+                                    Text(item.Detail)
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                VStack{
+                    Text("Updated Item")
+                        .font(.largeTitle)
+                    ScrollView(Axis.Set.horizontal, showsIndicators: true){
+                        HStack{
+                            ForEach(items){ item in
+                                VStack{
+                                    ZStack{
+                                        Image(systemName: item.Image)
+                                            .resizable()
+                                            .frame(width: 100, height: 100)
+                                        
+                                        ZStack{
+                                            VStack{
+                                                Rectangle()
+                                                    .frame(width: 100, height: 50)
+                                                    .opacity(0)
+                                                
+                                                Image(systemName: wishLike ? "heart.fill" : "heart")
+                                                    .foregroundColor(.red)
+                                                    .frame(width: 20, height: 20, alignment: .trailing)
+                                                    .onTapGesture {
+                                                        wishLike.toggle()
+                                                    }
+                                                
+                                            }
+                                            .frame(width: 100, height: 100)
+                                        }
+                                    }
+                                    Text(item.Name)
+                                    Divider()
+                                    Text(item.Detail)
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                
+                TabView{
+                    HStack{
+                        Spacer()
+                        Image(systemName:  "homekit")
+                        
+                        Spacer()
+                        
+                        Image(systemName: "heart.fill")
+                            .foregroundColor(.red)
+                        Spacer()
+                    }
+                    .frame(width: .infinity, height: 50)
+                    .background(.blue)
+                }
+            }
+        }
+    }
+}
+
+
+
+struct item : Identifiable {
+    
+    var id = UUID()
+    var Name : String
+    var Image : String
+    var Detail : String
+    
+}
+
+var itemList : [item] = [
+    item(Name: "airpods", Image: "airpods", Detail: "one color"),
+    item(Name: "display", Image: "display", Detail: "two color"),
+    item(Name: "airtag", Image: "airtag", Detail: "four color"),
+    item(Name: "airpodspro", Image: "airpodspro", Detail: "one color"),
+    item(Name: "pc", Image: "pc", Detail: "five color"),
+]
+
+struct itemDetail : View {
+    
+    var item : item
+    
+    var body: some View {
+        NavigationView{
+            
+            Text(item.Name)
+        }
+    }
+}
